@@ -1,0 +1,93 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  background-color: #1a202c;
+  color: #edf2f7;
+}
+.App {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem;
+}
+.app-container {
+  background-color: #2d3748;
+  border-radius: 16px;
+  padding: 2rem 3rem;
+  max-width: 700px;
+  width: 100%;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+  border: 1px solid #4a5568;
+}
+.App-header { margin-bottom: 2rem; }
+.App-header h1 { font-size: 2.5rem; color: #fff; margin: 0; }
+.App-header .subtitle { font-size: 1.1rem; color: #a0aec0; margin-top: 0.5rem; }
+.App-main { display: flex; flex-direction: column; gap: 1.5rem; }
+.step-card {
+  background-color: #4a5568;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+.connect-button, .launch-button, .kyc-button, .switch-network-button {
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 0.5rem;
+}
+.connect-button { background-color: #805ad5; color: white; }
+.connect-button:hover { background-color: #6b46c1; }
+.switch-network-button { background-color: #c53030; color: white; }
+.switch-network-button:hover { background-color: #9b2c2c; }
+.launch-button.buy { background-color: #38a169; color: white; }
+.launch-button.buy:hover { background-color: #2f855a; }
+.launch-button.sell { background-color: #3182ce; color: white; }
+.launch-button.sell:hover { background-color: #2b6cb0; }
+.actions-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.currency-selector {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.currency-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+.connection-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wallet-info {
+  background-color: #2d3748;
+  border-radius: 8px;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.wallet-info p { margin: 0.25rem 0; }
+.wallet-address-label { font-size: 0.8rem; color: #a0aec0; text-align: left; }
+.wallet-address strong { font-family: monospace; color: #9f7aea; font-size: 1.1rem; }
+.balance-display {
+  text-align: right;
+  border-left: 1px solid #4a5568;
+  padding-left: 1.25rem;
+}
+.balance-label { font-size: 0.8rem; color: #a0aec0; }
+.balance-value { font-size: 1.25rem; font-weight: 600; color: #68d391; }
+.error-message { color: #fc8181; font-weight: 500; }
+.status-message { font-size: 0.9rem; color: #90cdf4; min-height: 22px; }
+.main-status { font-weight: bold; }
