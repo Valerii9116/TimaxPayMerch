@@ -1,5 +1,3 @@
-const { SecretClient } = require("@azure/keyvault-secrets");
-const { DefaultAzureCredential } = require("@azure/identity");
 const fetch = require('node-fetch');
 
 async function getTransakAccessToken(apiKey, apiSecret, apiUrl) {
@@ -21,30 +19,20 @@ module.exports = async function (context, req) {
   context.log('getCustomerByEmail function processed a request.');
   const { email } = req.body;
   if (!email) {
-    context.res = {
-      status: 400,
-      body: JSON.stringify({ error: "Please provide an email." }),
-      headers: { 'Content-Type': 'application/json' }
-    };
+    context.res = { status: 400, body: JSON.stringify({ error: "Please provide an email." }), headers: { 'Content-Type': 'application/json' }};
     return;
   }
 
   try {
+    const apiKey = process.env.TransakApiKey;
+    const apiSecret = process.env.TransakApiSecret;
     const transakApiUrl = process.env.TRANSAK_API_URL || 'https://api.transak.com';
-    const keyVaultUri = process.env.KEY_VAULT_URI;
-    if (!keyVaultUri) throw new Error("KEY_VAULT_URI is not set.");
 
-    const credential = new DefaultAzureCredential();
-    const secretClient = new SecretClient(keyVaultUri, credential);
-
-    const apiKeySecret = await secretClient.getSecret("TransakApiKey");
-    const apiSecretSecret = await secretClient.getSecret("TransakApiSecret");
-    const apiKey = apiKeySecret.value;
-    const apiSecret = apiSecretSecret.value;
+    if (!apiKey || !apiSecret) {
+      throw new Error("API credentials are not configured in application settings.");
+    }
 
     const accessToken = await getTransakAccessToken(apiKey, apiSecret, transakApiUrl);
-
-    // **CORRECTION**: URL encode the email to handle special characters like '+' and '@'
     const partnerCustomerId = encodeURIComponent(email);
     const ordersUrl = `${transakApiUrl}/partners/api/v2/orders?filter[partnerCustomerId]=${partnerCustomerId}`;
 
@@ -55,9 +43,8 @@ module.exports = async function (context, req) {
       const errorBody = await ordersResponse.text();
       throw new Error(`Failed to fetch orders: ${ordersResponse.statusText} - ${errorBody}`);
     }
-    
+
     const ordersData = await ordersResponse.json();
-    
     const hasCompletedOrder = ordersData.data.some(order => order.status === 'COMPLETED');
 
     context.res = {
