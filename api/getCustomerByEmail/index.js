@@ -40,7 +40,7 @@ module.exports = async function (context, req) {
       headers: { 'access-token': accessToken }
     });
     if (!ordersResponse.ok) {
-      const errorBody = await ordersResponse.text();
+      const errorBody = await response.text();
       throw new Error(`Failed to fetch orders: ${ordersResponse.statusText} - ${errorBody}`);
     }
 
