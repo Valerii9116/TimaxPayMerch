@@ -4,7 +4,7 @@ import WalletConnector from './components/WalletConnector';
 import './App.css';
 
 // --- IMPORTANT ---
-// Paste your PUBLIC Transak Production API Key here
+// This is your public Transak Production API Key.
 const TRANSAK_API_KEY = "2976d312-19d8-4dd2-b7b4-ff29cdcaa745";
 
 function App() {
@@ -21,7 +21,8 @@ function App() {
   };
 
   const launchTransak = (mode) => {
-    if (!TRANSAK_API_KEY || TRANSAK_API_KEY === "2976d312-19d8-4dd2-b7b4-ff29cdcaa745") {
+    // **CORRECTION**: This now checks against the original placeholder.
+    if (!TRANSAK_API_KEY || TRANSAK_API_KEY === "YOUR_PUBLIC_TRANSAK_API_KEY") {
         setStatus("Error: Please add your Transak API Key to App.js");
         return;
     }
