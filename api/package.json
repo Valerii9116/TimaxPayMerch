@@ -1,0 +1,8 @@
+{
+    "name": "timax-pay-api",
+    "version": "1.0.0",
+    "description": "Secure backend for TimaxPay",
+    "dependencies": {
+      "node-fetch": "^2.6.7"
+    }
+  }
