@@ -59,7 +59,7 @@ function App() {
     <div className="App">
       <div className="app-container">
         <header className="App-header">
-          <h1>TimaxPay Gateway</h1>
+          <h1>TimaxPay Merch Gateway</h1>
           <p className="subtitle">Buy & Sell USDC on Polygon</p>
         </header>
         <main className="App-main">
