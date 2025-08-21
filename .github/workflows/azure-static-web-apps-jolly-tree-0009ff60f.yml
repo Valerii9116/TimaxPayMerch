@@ -40,3 +40,7 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_JOLLY_TREE_0009FF60F }}
           action: "close"
+          # **CORRECTION**: Added the required location parameters for consistency.
+          app_location: "/"
+          api_location: ""
+          output_location: "build"
