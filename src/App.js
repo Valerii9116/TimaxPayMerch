@@ -30,11 +30,16 @@ function App() {
     
     const transak = new Transak({
       apiKey: TRANSAK_API_KEY,
-      // **CORRECTION**: Changed to STAGING to match your testing API key.
-      environment: 'STAGING',
+      environment: 'PRODUCTION',
+      // --- Settings updated based on your iframe example ---
       productsAvailed: mode,
       fiatCurrency: fiatCurrency,
-      cryptoCurrencyCode: 'USDC',
+      defaultCryptoCurrency: 'USDT', // Changed from USDC to USDT
+      defaultFiatAmount: 100, // Added default amount
+      isFeeCalculationHidden: true, // Added fee calculation hiding
+      hideExchangeScreen: true, // Added to hide the exchange screen
+      exchangeScreenTitle: 'BUY CRYPTO', // Added custom title
+      // --- End of updated settings ---
       network: 'polygon',
       walletAddress: walletAddress,
       partnerCustomerId: walletAddress, 
@@ -59,8 +64,8 @@ function App() {
     <div className="App">
       <div className="app-container">
         <header className="App-header">
-          <h1>TimaxPay Gateway</h1>
-          <p className="subtitle">Buy & Sell USDC on Polygon</p>
+          <h1>TimaxPay Merch Gateway</h1>
+          <p className="subtitle">Buy & Sell Crypto on Polygon</p>
         </header>
         <main className="App-main">
           <div className="step-card">
@@ -74,8 +79,8 @@ function App() {
                 <label><input type="radio" value="EUR" checked={fiatCurrency === 'EUR'} onChange={() => setFiatCurrency('EUR')} /> EUR</label>
                 <label><input type="radio" value="USD" checked={fiatCurrency === 'USD'} onChange={() => setFiatCurrency('USD')} /> USD</label>
               </div>
-              <button onClick={() => launchTransak('BUY')} className="launch-button buy">Buy USDC with {fiatCurrency}</button>
-              <button onClick={() => launchTransak('SELL')} className="launch-button sell">Sell USDC for {fiatCurrency}</button>
+              <button onClick={() => launchTransak('BUY')} className="launch-button buy">Buy USDT with {fiatCurrency}</button>
+              <button onClick={() => launchTransak('SELL')} className="launch-button sell">Sell USDT for {fiatCurrency}</button>
             </div>
           )}
           
