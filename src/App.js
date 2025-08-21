@@ -4,7 +4,7 @@ import WalletConnector from './components/WalletConnector';
 import './App.css';
 
 // --- IMPORTANT ---
-// This is your public Transak Production API Key.
+// This is your public Transak API Key.
 const TRANSAK_API_KEY = "2976d312-19d8-4dd2-b7b4-ff29cdcaa745";
 
 function App() {
@@ -21,7 +21,6 @@ function App() {
   };
 
   const launchTransak = (mode) => {
-    // **CORRECTION**: This now checks against the original placeholder.
     if (!TRANSAK_API_KEY || TRANSAK_API_KEY === "YOUR_PUBLIC_TRANSAK_API_KEY") {
         setStatus("Error: Please add your Transak API Key to App.js");
         return;
@@ -31,7 +30,8 @@ function App() {
     
     const transak = new Transak({
       apiKey: TRANSAK_API_KEY,
-      environment: 'PRODUCTION',
+      // **CORRECTION**: Changed to STAGING to match your testing API key.
+      environment: 'STAGING',
       productsAvailed: mode,
       fiatCurrency: fiatCurrency,
       cryptoCurrencyCode: 'USDC',
@@ -59,7 +59,7 @@ function App() {
     <div className="App">
       <div className="app-container">
         <header className="App-header">
-          <h1>TimaxPay Merch Gateway</h1>
+          <h1>TimaxPay Gateway</h1>
           <p className="subtitle">Buy & Sell USDC on Polygon</p>
         </header>
         <main className="App-main">
