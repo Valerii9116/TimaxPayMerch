@@ -5,17 +5,21 @@ function TransactionUI({ apiKey, walletAddress, setStatus }) {
   const [fiatCurrency, setFiatCurrency] = useState('GBP');
 
   const launchTransak = (mode) => {
+    if (!apiKey || apiKey === "YOUR_PUBLIC_TRANSAK_API_KEY") {
+        setStatus("Please add your Transak API Key to App.js");
+        return;
+    }
+
     setStatus(`Initializing ${mode === 'BUY' ? 'On-Ramp' : 'Off-Ramp'}...`);
     
     const transak = new Transak({
       apiKey: apiKey,
-      environment: 'PRODUCTION', // Or 'STAGING'
+      environment: 'PRODUCTION',
       productsAvailed: mode,
       fiatCurrency: fiatCurrency,
       cryptoCurrencyCode: 'USDC',
       network: 'polygon',
       walletAddress: walletAddress,
-      // Use the wallet address as the unique customer identifier
       partnerCustomerId: walletAddress, 
       disableWalletAddressForm: true,
       hideMenu: true,

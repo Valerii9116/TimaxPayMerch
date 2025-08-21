@@ -1,30 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import WalletConnector from './components/WalletConnector';
-import TransactionUI from './components/TransactionUI'; // We will keep this component for clarity
+import TransactionUI from './components/TransactionUI';
 import './App.css';
+
+// --- IMPORTANT ---
+// Paste your PUBLIC Transak Production API Key here
+const TRANSAK_API_KEY = "2976d312-19d8-4dd2-b7b4-ff29cdcaa745";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
-  const [transakApiKey, setTransakApiKey] = useState(null);
   const [status, setStatus] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchConfig = async () => {
-      try {
-        const response = await fetch('/api/getConfig');
-        if (!response.ok) throw new Error('Failed to fetch config');
-        const config = await response.json();
-        setTransakApiKey(config.transakApiKey);
-      } catch (error) {
-        console.error("Config fetch error:", error);
-        setStatus('Error: Could not load payment provider.');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchConfig();
-  }, []);
 
   const handleWalletConnect = (address) => {
     setWalletAddress(address);
@@ -43,11 +28,9 @@ function App() {
             <WalletConnector onConnect={handleWalletConnect} />
           </div>
 
-          {isLoading && <p className="status-message">Loading payment provider...</p>}
-
-          {walletAddress && transakApiKey && (
+          {walletAddress && (
             <TransactionUI 
-              apiKey={transakApiKey} 
+              apiKey={TRANSAK_API_KEY} 
               walletAddress={walletAddress} 
               setStatus={setStatus} 
             />
@@ -59,4 +42,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
