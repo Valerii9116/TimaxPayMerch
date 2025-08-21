@@ -1,3 +1,5 @@
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { DefaultAzureCredential } = require("@azure/identity");
 const fetch = require('node-fetch');
 
 async function getTransakAccessToken(apiKey, apiSecret, apiUrl) {
@@ -24,13 +26,17 @@ module.exports = async function (context, req) {
   }
 
   try {
-    const apiKey = process.env.TransakApiKey;
-    const apiSecret = process.env.TransakApiSecret;
     const transakApiUrl = process.env.TRANSAK_API_URL || 'https://api.transak.com';
+    const keyVaultUri = process.env.KEY_VAULT_URI;
+    if (!keyVaultUri) throw new Error("KEY_VAULT_URI is not set.");
 
-    if (!apiKey || !apiSecret) {
-      throw new Error("API credentials are not configured in application settings.");
-    }
+    const credential = new DefaultAzureCredential();
+    const secretClient = new SecretClient(keyVaultUri, credential);
+
+    const apiKeySecret = await secretClient.getSecret("TransakApiKey");
+    const apiSecretSecret = await secretClient.getSecret("TransakApiSecret");
+    const apiKey = apiKeySecret.value;
+    const apiSecret = apiSecretSecret.value;
 
     const accessToken = await getTransakAccessToken(apiKey, apiSecret, transakApiUrl);
     const partnerCustomerId = encodeURIComponent(email);
