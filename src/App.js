@@ -5,7 +5,7 @@ import './App.css';
 
 // --- IMPORTANT ---
 // This should be your PUBLIC Transak Production API Key.
-const TRANSAK_API_KEY = "2976d312-19d8-4dd2-b7b4-ff29cdcaa745";
+const TRANSAK_API_KEY = "0fedc8c1-38db-455e-8792-8e8174bead31";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -32,7 +32,7 @@ function App() {
       apiKey: TRANSAK_API_KEY,
       // **CORRECTION**: Set to PRODUCTION for the live environment.
       // The SDK will automatically use the correct global.transak.com domain.
-      environment: 'PRODUCTION',
+      environment: 'STAGING',
       productsAvailed: mode,
       fiatCurrency: fiatCurrency,
       defaultCryptoCurrency: 'USDT',
