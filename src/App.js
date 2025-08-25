@@ -5,7 +5,7 @@ import './App.css';
 
 // --- IMPORTANT ---
 // This is your public Transak Staging (Test) API Key.
-const TRANSAK_API_KEY = "0fedc8c1-38db-455e-8792-8e8174bead31";
+const TRANSAK_API_KEY = "2976d312-19d8-4dd2-b7b4-ff29cdcaa745";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -13,7 +13,6 @@ function App() {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isWrongNetwork, setIsWrongNetwork] = useState(false);
   
-  // New state variables for multi-chain and multi-asset support
   const [fiatCurrency, setFiatCurrency] = useState('GBP');
   const [cryptoCurrency, setCryptoCurrency] = useState('USDC');
   const [network, setNetwork] = useState('polygon');
@@ -24,20 +23,17 @@ function App() {
     setIsWrongNetwork(wrongNetwork);
   };
 
-  const launchTransak = (mode) => {
-    setStatus(`Initializing ${mode === 'BUY' ? 'On-Ramp' : 'Off-Ramp'}...`);
+  // This function remains for the BUY button with all your custom settings
+  const launchBuy = () => {
+    setStatus(`Initializing On-Ramp...`);
     
     const transak = new Transak({
       apiKey: TRANSAK_API_KEY,
       environment: 'STAGING',
-      productsAvailed: mode,
-      
-      // --- Dynamic Configuration ---
+      productsAvailed: 'BUY',
       fiatCurrency: fiatCurrency,
-      cryptoCurrencyCode: cryptoCurrency, // Use state for crypto
-      network: network,                   // Use state for network
-      // --- End of Dynamic Configuration ---
-
+      cryptoCurrencyCode: cryptoCurrency,
+      network: network,
       walletAddress: walletAddress,
       partnerCustomerId: walletAddress, 
       disableWalletAddressForm: true,
@@ -51,7 +47,30 @@ function App() {
     transak.on(transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => setStatus('Widget closed.'));
     transak.on(transak.EVENTS.TRANSAK_ORDER_CREATED, () => setStatus(`Order created. Processing...`));
     transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, () => {
-      setStatus(`Success! Your ${mode} order is complete.`);
+      setStatus(`Success! Your BUY order is complete.`);
+      setTimeout(() => transak.close(), 5000);
+    });
+    transak.on(transak.EVENTS.TRANSAK_ORDER_FAILED, () => setStatus('Transaction failed. Please try again.'));
+  };
+
+  // **NEW**: A separate function for the SELL button with a minimal configuration for debugging.
+  const launchSell = () => {
+    setStatus(`Initializing Off-Ramp...`);
+    
+    const transak = new Transak({
+      apiKey: TRANSAK_API_KEY,
+      environment: 'STAGING',
+      // We are only setting the most essential parameters to test the SELL functionality.
+      productsAvailed: 'SELL',
+      walletAddress: walletAddress, 
+    });
+
+    transak.init();
+
+    transak.on(transak.EVENTS.TRANSAK_WIDGET_CLOSE, () => setStatus('Widget closed.'));
+    transak.on(transak.EVENTS.TRANSAK_ORDER_CREATED, () => setStatus(`Order created. Processing...`));
+    transak.on(transak.EVENTS.TRANSAK_ORDER_SUCCESSFUL, () => {
+      setStatus(`Success! Your SELL order is complete.`);
       setTimeout(() => transak.close(), 5000);
     });
     transak.on(transak.EVENTS.TRANSAK_ORDER_FAILED, () => setStatus('Transaction failed. Please try again.'));
@@ -73,7 +92,6 @@ function App() {
             <div className="step-card actions-container">
               
               <div className="selection-grid">
-                {/* --- Crypto Currency Selector --- */}
                 <div className="selector-group">
                   <h4>Select Crypto</h4>
                   <div className="radio-selector">
@@ -82,7 +100,6 @@ function App() {
                   </div>
                 </div>
 
-                {/* --- Fiat Currency Selector --- */}
                 <div className="selector-group">
                   <h4>Select Fiat</h4>
                   <div className="radio-selector">
@@ -93,7 +110,6 @@ function App() {
                 </div>
               </div>
 
-              {/* --- Network Selector --- */}
               <div className="selector-group">
                 <h4>Select Network</h4>
                 <div className="radio-selector network-selector">
@@ -106,8 +122,8 @@ function App() {
               </div>
 
               <div className="button-container">
-                <button onClick={() => launchTransak('BUY')} className="launch-button buy">Buy {cryptoCurrency} with {fiatCurrency}</button>
-                <button onClick={() => launchTransak('SELL')} className="launch-button sell">Sell {cryptoCurrency} for {fiatCurrency}</button>
+                <button onClick={launchBuy} className="launch-button buy">Buy {cryptoCurrency} with {fiatCurrency}</button>
+                <button onClick={launchSell} className="launch-button sell">Sell {cryptoCurrency} for {fiatCurrency}</button>
               </div>
             </div>
           )}
