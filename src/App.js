@@ -3,9 +3,16 @@ import Transak from '@transak/transak-sdk';
 import WalletConnector from './components/WalletConnector';
 import './App.css';
 
-// --- IMPORTANT ---
-// This is your public Transak Production API Key.
-const TRANSAK_API_KEY = "0fedc8c1-38db-455e-8792-8e8174bead31";
+// --- Environment Configuration ---
+// This code automatically detects if the app is running on the live Azure URL or locally.
+const isProduction = window.location.hostname.includes('azurestaticapps.net');
+
+// Use the correct API Key and Environment based on the URL.
+const TRANSAK_CONFIG = {
+  // IMPORTANT: Replace "YOUR_PRODUCTION_API_KEY_HERE" with your actual Production key.
+  apiKey: isProduction ? "YOUR_PRODUCTION_API_KEY_HERE" : "2976d312-19d8-4dd2-b7b4-ff29cdcaa745",
+  environment: isProduction ? 'PRODUCTION' : 'STAGING'
+};
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -21,17 +28,17 @@ function App() {
   };
 
   const launchTransak = (mode) => {
-    if (!TRANSAK_API_KEY || TRANSAK_API_KEY === "YOUR_PUBLIC_TRANSAK_API_KEY") {
-        setStatus("Error: Please add your Transak API Key to App.js");
+    // A check to ensure the production key has been added before deploying.
+    if (isProduction && TRANSAK_CONFIG.apiKey === "YOUR_PRODUCTION_API_KEY_HERE") {
+        setStatus("Error: Production API Key is not set in App.js");
         return;
     }
 
     setStatus(`Initializing ${mode === 'BUY' ? 'On-Ramp' : 'Off-Ramp'}...`);
     
     const transak = new Transak({
-      apiKey: TRANSAK_API_KEY,
-      // **CORRECTION**: Set to PRODUCTION to match your live API key.
-      environment: 'STAGING',
+      apiKey: TRANSAK_CONFIG.apiKey,
+      environment: TRANSAK_CONFIG.environment,
       productsAvailed: mode,
       fiatCurrency: fiatCurrency,
       defaultCryptoCurrency: 'USDT',
