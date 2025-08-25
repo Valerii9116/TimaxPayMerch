@@ -5,7 +5,7 @@ import './App.css';
 
 // --- IMPORTANT ---
 // This is your public Transak Staging (Test) API Key.
-const TRANSAK_API_KEY = "2976d312-19d8-4dd2-b7b4-ff29cdcaa745";
+const TRANSAK_API_KEY = "0fedc8c1-38db-455e-8792-8e8174bead31";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
