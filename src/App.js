@@ -4,7 +4,7 @@ import WalletConnector from './components/WalletConnector';
 import './App.css';
 
 // --- IMPORTANT ---
-// This should be your PUBLIC Transak Production API Key.
+// This is your public Transak Production API Key.
 const TRANSAK_API_KEY = "2976d312-19d8-4dd2-b7b4-ff29cdcaa745";
 
 function App() {
@@ -30,16 +30,11 @@ function App() {
     
     const transak = new Transak({
       apiKey: TRANSAK_API_KEY,
-      // **CORRECTION**: Set to PRODUCTION for the live environment.
-      // The SDK will automatically use the correct global.transak.com domain.
+      // **CORRECTION**: Set to PRODUCTION to match your live API key.
       environment: 'PRODUCTION',
       productsAvailed: mode,
       fiatCurrency: fiatCurrency,
       defaultCryptoCurrency: 'USDT',
-      defaultFiatAmount: 100,
-      isFeeCalculationHidden: true,
-      hideExchangeScreen: true,
-      exchangeScreenTitle: 'BUY CRYPTO',
       network: 'polygon',
       walletAddress: walletAddress,
       partnerCustomerId: walletAddress, 
