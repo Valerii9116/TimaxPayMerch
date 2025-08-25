@@ -5,7 +5,7 @@ import './App.css';
 
 // --- IMPORTANT ---
 // This is your public Transak Staging (Test) API Key.
-const TRANSAK_API_KEY = "0fedc8c1-38db-455e-8792-8e8174bead31";
+const TRANSAK_API_KEY = "2976d312-19d8-4dd2-b7b4-ff29cdcaa745";
 
 function App() {
   const [walletAddress, setWalletAddress] = useState(null);
@@ -29,7 +29,7 @@ function App() {
     
     const transak = new Transak({
       apiKey: TRANSAK_API_KEY,
-      environment: 'STAGING',
+      environment: 'PRODUCTION',
       productsAvailed: 'BUY',
       fiatCurrency: fiatCurrency,
       cryptoCurrencyCode: cryptoCurrency,
@@ -59,7 +59,7 @@ function App() {
     
     const transak = new Transak({
       apiKey: TRANSAK_API_KEY,
-      environment: 'STAGING',
+      environment: 'PRODUCTION',
       // We are only setting the most essential parameters to test the SELL functionality.
       productsAvailed: 'SELL',
       walletAddress: walletAddress, 
